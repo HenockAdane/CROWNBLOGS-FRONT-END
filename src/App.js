@@ -1,68 +1,112 @@
-import React, {useEffect} from "react"
-import { useDispatch } from "react-redux"
+import React, {useEffect, useState} from "react"
+import { useDispatch, useSelector } from "react-redux"
 import logo from './logo.svg';
 import './App.scss';
+import {
+  Redirect,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import SignIn from "./JScomponents/SignIn";
+import SignUp from "./JScomponents/SignUp";
+import Header from "./JScomponents/Header";
+import Profile from "./JScomponents/Profile";
+import { updateUser } from "./redux/userReducer";
+import ConfirmationPage from "./JScomponents/ConfirmationPage";
 
 function App() {
 
-  console.log(useDispatch)
+  const currentUser = useSelector(state => state.userReducer.currentUser)
+  const dispatch = useDispatch()
+
+  // console.log(useDispatch)
+   
+  const [state, setState] =  useState(({
+    movies: []
+  }))
 
 
-  // useEffect(() => {
-  //   fetch("https://thawing-beyond-85989.herokuapp.com/products").then(res => {
-  //     console.log(res)
+  useEffect(() => {
 
-  //     // res.status === 200 ? res.json() : (throw new Error(res.status))
+    const JSONuser = localStorage.getItem("crownBlogsUser")
+    const user = JSON.parse(JSONuser)
+      dispatch(updateUser(user))
+    
 
-  //     if (res.status === 200){
-  //       return res.json()
-  //     }
 
-  //     else{
-  //       alert(res.status)
-  //       throw new Error(res.status)
-  //     }
 
-  //   }).then(data => console.log(data)).catch(err => console.log(err))
+      
 
-  //   fetch("https://thawing-beyond-85989.herokuapp.com/productss").then(res => {
-  //     console.log(res)
-
-  //     // res.status === 200 ? res.json() : (throw new Error(res.status))
-
-  //     if (res.status === 200){
-  //       return res.json()
-  //     }
-
-  //     else{
-  //       alert(res.status)
-  //       throw new Error(res.status)
-  //     }
-
-  //   }).then(data => console.log(data)).catch(err => console.log(err))
     
     
-  // }, [])
+  }, [dispatch])
 
 
+
+
+
+  let confirmedSwitch = (<Switch>
+
+    
+
+    <Route exact={true} path="/profile" render={()=>(
+        <Profile />
+      )}
+      />
+
+    <Route exact={true} path="*" render={()=>(
+        <Redirect to="/profile" />
+      )}
+      />
+
+  </Switch>)
+  
+  let unconfirmedSwitch = <Switch>
+
+    <Route exact={true} path="/confirmationPage" render={()=>(
+            <ConfirmationPage />
+          )}
+          />
+
+    <Route exact={true} path="*" render={()=>(
+            <Redirect to="/confirmationPage" />
+          )}
+          />
+      
+  </Switch>
+  
+  let noUserSwitch = (<Switch>
+
+    <Route exact={true} path="/signIn" render={()=>(
+        <SignIn />
+      )}
+      />
+
+    <Route exact={true} path="/signUp" render={()=>(
+        <SignUp />
+      )}
+      />
+
+      <Route exact={true} path="*" render={()=>(
+        <Redirect to="/signIn" />
+      )}
+      />
+  </Switch>)
   
   
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+
+    {currentUser ? <Header /> : false}
+
+
+
+    
+
+    {currentUser && currentUser.confirmed ? confirmedSwitch : currentUser ? unconfirmedSwitch : noUserSwitch}
+      
     </div>
   );
 }

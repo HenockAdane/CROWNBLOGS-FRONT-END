@@ -1,0 +1,85 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    hr{
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .form{
+        background-color: rgb(228,202, 200);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 396px;
+        max-width: 100%;
+        border: 1px solid;
+        border-radius: 6px;
+        padding: 10px;
+
+
+        input{
+            padding: 10px 12px;
+            width: 100%;
+            margin: 2px 0;
+            outline: none;
+            border-radius: 6px;
+        }
+
+        .nameContainer{
+            display: flex;
+            justify-content: space-between;
+
+            input{
+                width: 49%;
+            }
+        }
+        
+
+
+        .dateContainer{
+            margin: 4px 0;
+
+            input{
+                padding: 10px;
+                cursor: pointer;
+            }
+        }
+
+        .genderContainer{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        
+            .genderOptions{
+                display: flex;
+                border: 1px solid;
+                width: 31%;
+                justify-content: space-between;
+                align-items: center;
+
+                input{
+                    cursor: pointer;
+                }
+        
+            }
+        }
+
+
+
+        a{
+            padding: 8px 11px;
+            width: 150px;
+            margin: 10px 0;
+            color: black;
+            border: 1px solid;
+            text-decoration: none;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+    }
+}
